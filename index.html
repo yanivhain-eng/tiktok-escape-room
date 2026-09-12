@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אחוזת הטיקטוק - חדר בריחה אינטראקטיבי</title>
+    <title>אחוזת הטיקטוק - חדר בריחה מציאותי</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --tiktok-pink: #fe0979;
             --tiktok-cyan: #00f2fe;
-            --bg-dark: #121212;
         }
         body {
-            background-color: #050505;
+            background-color: #0d0d0d;
             font-family: 'Heebo', sans-serif;
             margin: 0;
             padding: 0;
@@ -20,16 +19,16 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
             color: white;
+            overflow: hidden;
         }
         .phone-mockup {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             height: 95vh;
             max-height: 850px;
-            background: var(--bg-dark);
-            border-radius: 40px;
+            background: #000;
+            border-radius: 35px;
             border: 8px solid #222;
             box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
             display: flex;
@@ -38,11 +37,11 @@
             overflow: hidden;
         }
         .header {
-            padding: 15px;
+            padding: 12px;
             text-align: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 900;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             border-bottom: 2px solid var(--tiktok-pink);
             z-index: 10;
         }
@@ -53,61 +52,66 @@
             position: relative;
             background-size: cover;
             background-position: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 20px;
-        }
-        
-        /* חפצים אינטראקטיביים בחדר שאפשר ללחוץ עליהם */
-        .interactive-object {
-            background: rgba(0,0,0,0.65);
-            border: 3px solid var(--tiktok-cyan);
-            border-radius: 20px;
-            padding: 15px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--tiktok-cyan);
-            transition: all 0.3s transform;
-            animation: pulse 2s infinite;
-            text-align: center;
-        }
-        .interactive-object:active {
-            transform: scale(0.9);
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 10px var(--tiktok-cyan); }
-            50% { box-shadow: 0 0 25px var(--tiktok-pink); border-color: var(--tiktok-pink); }
-            100% { box-shadow: 0 0 10px var(--tiktok-cyan); }
+            overflow: hidden;
         }
 
-        /* מודאל (חלון קופץ) של החידה */
+        /* נקודות חמות ללחיצה על חפצים בתוך החדר (Hotspots) */
+        .hotspot {
+            position: absolute;
+            border: 2px dashed var(--tiktok-cyan);
+            background: rgba(0, 242, 254, 0.25);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            animation: pulse 2s infinite;
+            transition: transform 0.2s;
+        }
+        .hotspot:active { transform: scale(0.9); }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px var(--tiktok-cyan); }
+            50% { box-shadow: 0 0 20px var(--tiktok-pink); border-color: var(--tiktok-pink); }
+            100% { box-shadow: 0 0 5px var(--tiktok-cyan); }
+        }
+
+        /* חלון חידה קופץ (Modal) */
         .puzzle-modal {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.92);
+            background: rgba(0, 0, 0, 0.93);
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
-            z-index: 20;
+            z-index: 30;
         }
         .puzzle-box {
-            background: #1e1e24;
+            background: #18181c;
             border: 2px solid var(--tiktok-pink);
             border-radius: 20px;
             padding: 20px;
-            width: 90%;
-            box-shadow: 0 0 20px rgba(254, 9, 121, 0.5);
+            width: 85%;
+            box-shadow: 0 0 25px rgba(254, 9, 121, 0.4);
         }
-        .puzzle-icon { font-size: 60px; margin-bottom: 10px; }
-        .puzzle-title { font-size: 22px; font-weight: bold; color: var(--tiktok-cyan); margin-bottom: 10px; }
-        .puzzle-desc { font-size: 18px; line-height: 1.4; margin-bottom: 20px; }
+        .puzzle-title { font-size: 20px; font-weight: bold; color: var(--tiktok-cyan); margin-bottom: 10px; }
+        .puzzle-desc { font-size: 16px; line-height: 1.4; margin-bottom: 15px; }
         
+        /* נגן וידאו אמיתי מובנה בתוך החידה */
+        .video-container {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--tiktok-cyan);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
         input {
             width: 80%;
             padding: 12px;
@@ -116,24 +120,21 @@
             border: 2px solid var(--tiktok-cyan);
             text-align: center;
             outline: none;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            font-family: 'Heebo', sans-serif;
         }
-        .btn-action {
+        .btn {
             background: var(--tiktok-pink);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 18px;
+            padding: 10px 25px;
+            font-size: 16px;
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
+            margin: 4px;
         }
-        .close-btn {
-            background: #555;
-            margin-top: 10px;
-            font-size: 14px;
-            padding: 8px 20px;
-        }
+        .btn-close { background: #444; }
 
         .win-screen {
             display: none;
@@ -150,137 +151,140 @@
 <body>
 
 <div class="phone-mockup">
-    <div class="header" id="room-header">חדר 1: סטודיו הריקוד 🎬</div>
+    <div class="header" id="room-header">חדר 1: סטודיו הצילומים 📸</div>
     
     <div class="room-viewport" id="room-viewport">
-        <!-- החפצים בחדר שניתן ללחוץ עליהם יופיעו כאן -->
+        <!-- החפצים בתוך החדר ייווצרו פה באופן דינמי -->
     </div>
 
-    <!-- חלון החידה הקופץ -->
+    <!-- חלון החידה -->
     <div class="puzzle-modal" id="puzzle-modal">
         <div class="puzzle-box">
-            <div class="puzzle-icon" id="p-icon">🔎</div>
-            <div class="puzzle-title" id="p-title">שם החפץ</div>
-            <div class="puzzle-desc" id="p-desc">תיאור החידה...</div>
+            <div class="puzzle-title" id="p-title">חפץ שנמצא!</div>
+            <div id="video-box" class="video-container" style="display:none;"></div>
+            <div class="puzzle-desc" id="p-desc">תיאור החידה</div>
             
-            <input type="text" id="ans-input" placeholder="הקלידו פתרון...">
+            <div id="input-area">
+                <input type="text" id="ans-input" placeholder="הקלידו את התשובה...">
+                <br>
+                <button class="btn" onclick="checkAnswer()">פתיחת המנעול 🔓</button>
+            </div>
             <br>
-            <button class="btn-action" onclick="checkPuzzleAnswer()">פתיחת המנעול 🔓</button>
-            <br>
-            <button class="btn-action close-btn" onclick="closePuzzle()">חזרה לסיור בחדר 🔙</button>
+            <button class="btn btn-close" onclick="closePuzzle()">חזרה לסריקת החדר 🔍</button>
         </div>
     </div>
 
     <!-- מסך ניצחון -->
     <div class="win-screen" id="win-screen">
-        <h1 style="font-size: 45px;">🏆 יצאתן מהאחוזה! 🏆</h1>
-        <p style="font-size: 22px;">ליאור ומילי, פתרתן את כל החפצים והחידות כמו מקצועניות!</p>
-        <div style="font-size: 80px;">✨👑📱</div>
+        <h1 style="font-size: 40px;">🎉 סיימתן את המשחק! 🎉</h1>
+        <p style="font-size: 22px;">ליאור ומילי, פתרתן את כל החידות באחוזה!</p>
+        <div style="font-size: 70px;">👑📱✨</div>
     </div>
 </div>
 
 <script>
-    // מבנה החדרים והחפצים הפיזיים בתוכם
-    const gameData = [
+    // הגדרת החדרים, החפצים והמיקומים שלהם בתוך החדר
+    const rooms = [
         {
-            roomName: "חדר 1: סטודיו הריקוד 🎬",
-            bg: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=500')",
-            objects: [
+            name: "חדר 1: סטודיו הצילומים 📸",
+            bg: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600",
+            hotspots: [
                 {
-                    name: "🖥️ מסך המחשב של הסטרימר",
-                    icon: "💻",
-                    title: "מחשב העריכה נעול!",
-                    desc: "על המסך מופיע סרטון טיק-טוק בלופ עם רמז: <br><br><b>'אני יכול לרוץ אבל אין לי רגליים, יש לי ערוץ אבל אין לי טלוויזיה'. מי אני?</b>",
+                    top: "35%", left: "15%", width: "70px", height: "70px", icon: "💻",
+                    title: "מחשב העריכה של הסטודיו",
+                    video: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1",
+                    desc: "צפו בסרטון! הטיקטוקרית משאירה חידה: <br><br><b>'אני יכול לרוץ אבל אין לי רגליים, ויש לי ערוץ אבל אין לי טלוויזיה'. מי אני?</b>",
                     answers: ["נהר", "נחל", "מים"]
                 },
                 {
-                    name: "🚪 דלת היציאה לחדר הבא",
-                    icon: "🔒",
-                    title: "הדלת נעולה בתיבת קוד!",
-                    desc: "כדי לפתוח את הדלת לחדר הבא, פתרו קודם את החידה במסך המחשב!",
-                    locked: true
+                    top: "60%", left: "65%", width: "80px", height: "80px", icon: "💡",
+                    title: "תאורת הרינג-לייט",
+                    desc: "על גב התאורה חרוט רמז: <br><br><b>'אני תמיד מולך אבל אף אחד לא יכול לראות אותי'. מה אני?</b>",
+                    answers: ["עתיד", "העתיד"]
                 }
             ]
         },
         {
-            roomName: "חדר 2: ארון התלבושות 👗",
-            bg: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=500')",
-            objects: [
+            name: "חדר 2: ארון התלבושות 👗",
+            bg: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600",
+            hotspots: [
                 {
-                    name: "📦 קופסת נעלי הניאון הסודית",
-                    icon: "👟",
-                    title: "פתק בתוך נעל הניאון!",
-                    desc: "מצאתן פתק סודי: <br><br><b>'משהו שאם אומרים את השם שלו – הוא נעלם פתאום'. מה זה?</b>",
-                    answers: ["שקט", "השקט"]
-                }
-            ]
-        },
-        {
-            roomName: "חדר 3: כספת זהב 🏆",
-            bg: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500')",
-            objects: [
-                {
-                    name: "🔐 כספת הפרסים המרכזית",
-                    icon: "💎",
-                    title: "מנעול הטיקטוק האחרון!",
-                    desc: "הגעתן לכספת! <br><br><b>'אני מלא בחורים, אבל עדיין מחזיק מים'. מה אני?</b>",
-                    answers: ["ספוג", "הספוג"]
+                    top: "45%", left: "40%", width: "90px", height: "90px", icon: "👟",
+                    title: "קופסת נעלי הניאון",
+                    desc: "בתוך הנעל מוחבאת פתקית: <br><br><b>'ככל שתיקח ממני יותר, ככה אהיה גדולה יותר'. מה אני?</b>",
+                    answers: ["גומה", "חור", "הגומה"]
                 }
             ]
         }
     ];
 
-    let currentRoomIndex = 0;
-    let currentObject = null;
+    let currentRoom = 0;
+    let currentHotspot = null;
 
-    function renderRoom() {
-        const room = gameData[currentRoomIndex];
-        document.getElementById('room-header').innerText = room.roomName;
+    function loadRoom() {
+        const room = rooms[currentRoom];
+        document.getElementById('room-header').innerText = room.name;
         const viewport = document.getElementById('room-viewport');
-        viewport.style.backgroundImage = room.bg;
+        viewport.style.backgroundImage = `url('${room.bg}')`;
         viewport.innerHTML = "";
 
-        room.objects.forEach(obj => {
-            const div = document.createElement('div');
-            div.className = 'interactive-object';
-            div.innerText = obj.name;
-            div.onclick = () => openPuzzle(obj);
-            viewport.appendChild(div);
+        // יצירת החפצים בתוך החדר לפי המיקומים שלהם
+        room.hotspots.forEach(hs => {
+            const el = document.createElement('div');
+            el.className = 'hotspot';
+            el.style.top = hs.top;
+            el.style.left = hs.left;
+            el.style.width = hs.width;
+            el.style.height = hs.height;
+            el.innerHTML = hs.icon;
+            el.onclick = () => openHotspot(hs);
+            viewport.appendChild(el);
         });
     }
 
-    function openPuzzle(obj) {
-        currentObject = obj;
-        document.getElementById('p-icon').innerText = obj.icon;
-        document.getElementById('p-title').innerText = obj.title;
-        document.getElementById('p-desc').innerHTML = obj.desc;
+    function openHotspot(hs) {
+        currentHotspot = hs;
+        document.getElementById('p-title').innerText = hs.title;
+        document.getElementById('p-desc').innerHTML = hs.desc;
         document.getElementById('ans-input').value = "";
+        
+        const videoBox = document.getElementById('video-box');
+        if (hs.video) {
+            videoBox.style.display = 'block';
+            videoBox.innerHTML = `<iframe src="${hs.video}" allow="autoplay"></iframe>`;
+        } else {
+            videoBox.style.display = 'none';
+            videoBox.innerHTML = "";
+        }
+
         document.getElementById('puzzle-modal').style.display = 'flex';
     }
 
     function closePuzzle() {
         document.getElementById('puzzle-modal').style.display = 'none';
+        document.getElementById('video-box').innerHTML = ""; 
     }
 
-    function checkPuzzleAnswer() {
-        const input = document.getElementById('ans-input').value.trim();
-        if (currentObject.answers && currentObject.answers.some(a => input.includes(a))) {
-            alert("כל הכבוד! החפץ נפתח! 🎉");
+    function checkAnswer() {
+        const val = document.getElementById('ans-input').value.trim();
+        if (currentHotspot.answers.some(a => val.includes(a))) {
+            alert("פצחתן את החידה בחפץ הזה! 🏆");
             closePuzzle();
-            currentRoomIndex++;
-            if (currentRoomIndex < gameData.length) {
-                renderRoom();
+            
+            // מעבר לחדר הבא
+            currentRoom++;
+            if (currentRoom < rooms.length) {
+                loadRoom();
             } else {
                 document.getElementById('room-viewport').style.display = 'none';
-                document.getElementById('puzzle-modal').style.display = 'none';
                 document.getElementById('win-screen').style.display = 'flex';
             }
         } else {
-            alert("קוד שגוי! נסו לחשוב שוב... 🤔");
+            alert("תשובה שגויה, חפשו שוב בחפץ! 🤔");
         }
     }
 
-    renderRoom();
+    loadRoom();
 </script>
 </body>
 </html>
