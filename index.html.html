@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אחוזת הטיקטוק - חדר הבריחה של ליאור ומילי</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tiktok-pink: #fe0979;
+            --tiktok-cyan: #00f2fe;
+            --bg-dark: #000000;
+            --text-light: #ffffff;
+        }
+        body {
+            background-color: #1a1a1a;
+            font-family: 'Heebo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-light);
+        }
+        .phone-mockup {
+            width: 100%;
+            max-width: 400px;
+            height: 95vh;
+            max-height: 850px;
+            background: var(--bg-dark);
+            border-radius: 40px;
+            border: 10px solid #333;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.2), 0 0 40px rgba(254, 9, 121, 0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        /* עיצוב ראש המסך בסגנון טיקטוק */
+        .header {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+        }
+        .header span { margin: 0 15px; opacity: 0.5; }
+        .header span.active { opacity: 1; border-bottom: 2px solid white; padding-bottom: 5px; }
+        
+        /* תוכן החדר - מתחלף דינמית */
+        .room-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: background 0.5s ease-in-out;
+            padding-top: 60px;
+        }
+        .room-icon {
+            font-size: 80px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--tiktok-cyan), 0 0 30px var(--tiktok-pink);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .room-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-text {
+            font-size: 20px;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 4px solid var(--tiktok-pink);
+            border-left: 4px solid var(--tiktok-cyan);
+            z-index: 2;
+        }
+        
+        /* כפתורי צד (כמו לייק, תגובות בטיקטוק) */
+        .side-buttons {
+            position: absolute;
+            right: 15px;
+            bottom: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 5;
+        }
+        .side-icon { font-size: 35px; filter: drop-shadow(2px 4px 6px black); }
+        
+        /* אזור ההקלדה */
+        .input-area {
+            width: 90%;
+            z-index: 5;
+            margin-top: auto;
+            margin-bottom: 40px;
+        }
+        input {
+            width: 85%;
+            padding: 15px;
+            font-size: 20px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            color: #000;
+            outline: none;
+            font-family: 'Heebo', sans-serif;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        input:focus {
+            border: 2px solid var(--tiktok-cyan);
+            box-shadow: 0 0 15px var(--tiktok-pink);
+        }
+        button {
+            background: var(--tiktok-pink);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: 900;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px var(--tiktok-cyan);
+            transition: all 0.2s;
+            font-family: 'Heebo', sans-serif;
+            width: 95%;
+        }
+        button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0px 0px 0px var(--tiktok-cyan);
+        }
+        .shake { animation: shake 0.4s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* מסך סיום מוזהב */
+        .win-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(45deg, #f9d423, #ff4e50);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            z-index: 20;
+        }
+        .win-screen h1 { font-size: 50px; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .win-screen p { font-size: 24px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="phone-mockup">
+    <div class="header" id="header">
+        <span>עוקבים</span>
+        <span class="active">חדר בריחה (FYP)</span>
+    </div>
+    
+    <div class="room-container" id="room-container">
+        <div class="side-buttons">
+            <div class="side-icon">❤️</div>
+            <div class="side-icon">💬</div>
+            <div class="side-icon">↪️</div>
+        </div>
+        
+        <div class="room-icon" id="room-icon">🎥</div>
+        <div class="room-title" id="room-title">טוען חדר...</div>
+        <div class="story-text" id="story-text">...</div>
+        
+        <div class="input-area">
+            <input type="text" id="answer-input" placeholder="הקלידו את התשובה פה...">
+            <button onclick="checkAnswer()" id="submit-btn">לפרוץ את החדר הבא!</button>
+        </div>
+    </div>
+
+    <div class="win-screen" id="win-screen">
+        <h1>🎉 ויראלי!! 🎉</h1>
+        <p>ליאור ומילי,<br>אתן אלופות הטיקטוק!</p>
+        <p>פרצתן את כל 10 החדרים באחוזה!</p>
+        <div style="font-size: 70px; margin-top: 20px;">👑📱🔥</div>
+    </div>
+</div>
+
+<script>
+    // מאגר החדרים והחידות - 10 חדרים שונים עם תשובות גמישות כדי למנוע תסכול
+    const rooms = [
+        {
+            title: "חדר 1: סטודיו הצילום", icon: "📸", bg: "linear-gradient(135deg, #111, #333)",
+            story: "הגעתן לאחוזת הטיקטוק! הדלת הראשונה נעולה. מצאו את המילה שמסתתרת בהאשטגים: <br><br> #ריקוד #אתגר #חיוך #סיסמה #ויראלי",
+            answers: ["סיסמה", "הסיסמה"]
+        },
+        {
+            title: "חדר 2: עמדת הרינג-לייט", icon: "💡", bg: "linear-gradient(135deg, #2c3e50, #000000)",
+            story: "התאורה מקולקלת! יש מנורה כחולה ומנורה צהובה. <br><br> אם נדליק את שתיהן יחד, איזה צבע נקבל בחדר?",
+            answers: ["ירוק", "צבע ירוק"]
+        },
+        {
+            title: "חדר 3: ארון הבגדים", icon: "👗", bg: "linear-gradient(135deg, #8e44ad, #2c3e50)",
+            story: "משהו בארון של הטיקטוקרית לא שייך לבגדים! מצאו את המילה היוצאת דופן: <br><br> חולצה, שמלה, סניקרס, אבטיח, כובע.",
+            answers: ["אבטיח", "האבטיח"]
+        },
+        {
+            title: "חדר 4: פינת האיפור", icon: "💄", bg: "linear-gradient(135deg, #fd79a8, #d63031)",
+            story: "הטיקטוקרית מתאפרת ללייב שלה. <br><br> מהו החפץ שבעזרתו אנחנו יכולות לראות את עצמנו?",
+            answers: ["מראה", "ראי", "מראות"]
+        },
+        {
+            title: "חדר 5: חדר העריכה", icon: "✂️", bg: "linear-gradient(135deg, #0984e3, #2d3436)",
+            story: "הסרטון ארוך מדי וצריך לחתוך אותו! <br><br> מה הכלי החד שאיתו גוזרים דברים?",
+            answers: ["מספריים", "מספרים", "מספרים!"]
+        },
+        {
+            title: "חדר 6: קיר התגובות", icon: "💬", bg: "linear-gradient(135deg, #00b894, #2d3436)",
+            story: "עוקב מסתורי השאיר חידה בתגובות: <br><br> 'כשלוחצים עליי פעמיים בסרטון, אני מופיע פתאום באמצע המסך בצבע אדום'. מה אני?",
+            answers: ["לייק", "לב", "לב אדום", "לייקים"]
+        },
+        {
+            title: "חדר 7: ספריית הסאונד", icon: "🎵", bg: "linear-gradient(135deg, #6c5ce7, #1e272e)",
+            story: "הסאונד הבא הוא של חיה: <br><br> היא אוהבת לשתות חלב, עושה מיאו, ויש לה שפם. מי זו?",
+            answers: ["חתול", "חתולה", "חתולים"]
+        },
+        {
+            title: "חדר 8: מסיבת הלייב", icon: "🔴", bg: "linear-gradient(135deg, #e17055, #2d3436)",
+            story: "הלייב התחיל ויש מלא צופים! טרול כתב בצ'אט: <br><br> 'אני עף בשמיים בלי כנפיים, ובוכה בלי עיניים'. מה אני?",
+            answers: ["ענן", "עננים"]
+        },
+        {
+            title: "חדר 9: חדר המתנות", icon: "🎁", bg: "linear-gradient(135deg, #f39c12, #d35400)",
+            story: "שלחו לטיקטוקרית מתנה מיוחדת במינה. <br><br> 'יש לי המון דפים אבל אני לא עץ, ויש לי כריכה אבל אני לא שמיכה'. מה אני?",
+            answers: ["ספר", "ספרים"]
+        },
+        {
+            title: "חדר 10: שער היציאה", icon: "🚪", bg: "linear-gradient(135deg, #2ecc71, #27ae60)",
+            story: "הגעתן לדלת האחרונה! <br><br> מה הדבר ששייך רק לכן, אבל חברים שלכן משתמשים בו הרבה יותר מכן?",
+            answers: ["שם", "השם שלי", "השם שלנו", "שמות"]
+        }
+    ];
+
+    let currentRoom = 0;
+    
+    function loadRoom() {
+        if (currentRoom < rooms.length) {
+            const room = rooms[currentRoom];
+            document.getElementById('room-title').innerText = room.title;
+            document.getElementById('room-icon').innerText = room.icon;
+            document.getElementById('story-text').innerHTML = room.story;
+            document.getElementById('room-container').style.background = room.bg;
+            document.getElementById('answer-input').value = "";
+            document.getElementById('answer-input').placeholder = "הקלידו תשובה...";
+        } else {
+            // כל החדרים נפתרו!
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('room-container').style.display = 'none';
+            document.getElementById('win-screen').style.display = 'flex';
+        }
+    }
+
+    function checkAnswer() {
+        // מנקים רווחים מהתשובה שהוקלדה כדי שהבדיקה תהיה חלקה
+        const userInput = document.getElementById('answer-input').value.trim();
+        const roomArea = document.getElementById('room-container');
+        const correctAnswers = rooms[currentRoom].answers;
+        
+        // בודקים אם התשובה קיימת במערך התשובות האפשריות (מתעלם מרווחים)
+        const isCorrect = correctAnswers.some(ans => userInput.includes(ans));
+
+        if (isCorrect) {
+            currentRoom++;
+            loadRoom();
+        } else {
+            // טעות - מרעידים את המסך
+            roomArea.classList.add('shake');
+            document.getElementById('answer-input').value = ""; 
+            document.getElementById('answer-input').placeholder = "אופס! נסו שוב...";
+            
+            setTimeout(() => {
+                roomArea.classList.remove('shake');
+            }, 400);
+        }
+    }
+
+    // מאפשר לחיצה על Enter במקלדת כדי לענות
+    document.getElementById('answer-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkAnswer();
+        }
+    });
+
+    // טעינת החדר הראשון בהתחלה
+    loadRoom();
+</script>
+
+</body>
+</html>
