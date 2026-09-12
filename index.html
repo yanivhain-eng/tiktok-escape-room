@@ -52,7 +52,6 @@
             background-size: cover;
             background-position: center;
             overflow: hidden;
-            transition: background-image 0.5s ease-in-out;
         }
 
         .hotspot {
@@ -64,7 +63,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 22px;
             animation: pulse 2s infinite;
             transition: transform 0.2s;
         }
@@ -95,12 +94,11 @@
             padding: 20px;
             width: 85%;
             box-shadow: 0 0 25px rgba(254, 9, 121, 0.4);
-            max-height: 80vh;
-            overflow-y: auto;
         }
         .puzzle-title { font-size: 20px; font-weight: bold; color: var(--tiktok-cyan); margin-bottom: 10px; }
         .puzzle-desc { font-size: 16px; line-height: 1.4; margin-bottom: 15px; }
         
+        /* נגן וידאו מותאם לסרטוני HTML5 direct */
         .video-container {
             width: 100%;
             height: 190px;
@@ -108,8 +106,9 @@
             border-radius: 12px;
             overflow: hidden;
             border: 2px solid var(--tiktok-cyan);
+            background: #000;
         }
-        iframe { width: 100%; height: 100%; border: none; }
+        video { width: 100%; height: 100%; object-fit: cover; }
 
         input {
             width: 80%;
@@ -121,8 +120,6 @@
             outline: none;
             margin-bottom: 12px;
             font-family: 'Heebo', sans-serif;
-            background: #222;
-            color: white;
         }
         .btn {
             background: var(--tiktok-pink);
@@ -152,7 +149,7 @@
 <body>
 
 <div class="phone-mockup">
-    <div class="header" id="room-header">טוען את האחוזה...</div>
+    <div class="header" id="room-header">חדר 1: סטודיו הצילומים 📸</div>
     
     <div class="room-viewport" id="room-viewport"></div>
 
@@ -174,7 +171,7 @@
 
     <div class="win-screen" id="win-screen">
         <h1 style="font-size: 40px;">🎉 סיימתן את המשחק! 🎉</h1>
-        <p style="font-size: 22px;">ליאור ומילי, פתרתן את כל החידות באחוזה כמו אלופות אמיתיות!</p>
+        <p style="font-size: 22px;">ליאור ומילי, פתרתן את כל החידות באחוזה!</p>
         <div style="font-size: 70px;">👑📱✨</div>
     </div>
 </div>
@@ -188,14 +185,14 @@
                 {
                     top: "35%", left: "15%", width: "70px", height: "70px", icon: "💻",
                     title: "מחשב העריכה של הסטודיו",
-                    video: "https://www.youtube.com/embed/LtY23Aq1mTI?autoplay=1",
-                    desc: "הלהיט של אנה זק מתנגן במחשב! <br><br><b>הקשיבו לשיר - מה מבקשת הזמרת מאותו בחור לעשות?</b>",
-                    answers: ["לישון", "לך לישון"]
+                    // סרטון Pixabay חינמי מובנה ישירות במנוע
+                    video: "https://cdn.pixabay.com/video/2020/05/25/40149-425170566_tiny.mp4",
+                    desc: "הביטו בסרטון הסטודיו שנפתח! הרמז שמופיע במסך: <br><br><b>'אני יכול לרוץ אבל אין לי רגליים, ויש לי ערוץ אבל אין לי טלוויזיה'. מי אני?</b>",
+                    answers: ["נהר", "נחל", "מים"]
                 },
                 {
                     top: "60%", left: "65%", width: "80px", height: "80px", icon: "💡",
                     title: "תאורת הרינג-לייט",
-                    video: null,
                     desc: "על גב התאורה חרוט רמז: <br><br><b>'אני תמיד מולך אבל אף אחד לא יכול לראות אותי'. מה אני?</b>",
                     answers: ["עתיד", "העתיד"]
                 }
@@ -208,22 +205,8 @@
                 {
                     top: "45%", left: "40%", width: "90px", height: "90px", icon: "👟",
                     title: "קופסת נעלי הניאון",
-                    video: "https://www.youtube.com/embed/FsNW5wYnSYU",
-                    desc: "מצאתן קלטת סודית עם שיר מוכר. <br><br><b>באיזה מופע ילדים מפורסם מדובר בשיר שמתנגן?</b>",
-                    answers: ["פסטיגל", "הפסטיגל"]
-                }
-            ]
-        },
-        {
-            name: "חדר 3: קולנוע הטיקטוק 🍿",
-            bg: "https://images.unsplash.com/photo-1585647347384-2593bc35786b?w=600",
-            hotspots: [
-                {
-                    top: "40%", left: "50%", width: "100px", height: "80px", icon: "📺",
-                    title: "מסך הטלוויזיה הענק",
-                    video: "https://www.youtube.com/embed/mYgxBtAoi50",
-                    desc: "מסך הטלוויזיה נדלק על חידון סרטונים של דיסני! <br><br><b>איך קוראים ליצור החוצני הכחול והחמוד שמופיע בסרטון?</b>",
-                    answers: ["סטיץ", "סטיץ'"]
+                    desc: "בתוך הנעל מוחבאת פתקית: <br><br><b>'ככל שתיקח ממני יותר, ככה אהיה גדולה יותר'. מה אני?</b>",
+                    answers: ["גומה", "חור", "הגומה"]
                 }
             ]
         }
@@ -231,7 +214,6 @@
 
     let currentRoom = 0;
     let currentHotspot = null;
-    let solvedInRoom = 0;
 
     function loadRoom() {
         const room = rooms[currentRoom];
@@ -239,7 +221,6 @@
         const viewport = document.getElementById('room-viewport');
         viewport.style.backgroundImage = `url('${room.bg}')`;
         viewport.innerHTML = "";
-        solvedInRoom = 0;
 
         room.hotspots.forEach(hs => {
             const el = document.createElement('div');
@@ -249,14 +230,13 @@
             el.style.width = hs.width;
             el.style.height = hs.height;
             el.innerHTML = hs.icon;
-            el.onclick = () => openHotspot(hs, el);
+            el.onclick = () => openHotspot(hs);
             viewport.appendChild(el);
         });
     }
 
-    function openHotspot(hs, element) {
+    function openHotspot(hs) {
         currentHotspot = hs;
-        currentHotspot.element = element;
         document.getElementById('p-title').innerText = hs.title;
         document.getElementById('p-desc').innerHTML = hs.desc;
         document.getElementById('ans-input').value = "";
@@ -264,7 +244,7 @@
         const videoBox = document.getElementById('video-box');
         if (hs.video) {
             videoBox.style.display = 'block';
-            videoBox.innerHTML = `<iframe src="${hs.video}" allow="autoplay; encrypted-media"></iframe>`;
+            videoBox.innerHTML = `<video src="${hs.video}" autoplay loop muted controls></video>`;
         } else {
             videoBox.style.display = 'none';
             videoBox.innerHTML = "";
@@ -283,19 +263,13 @@
         if (currentHotspot.answers.some(a => val.includes(a))) {
             alert("פצחתן את החידה בחפץ הזה! 🏆");
             closePuzzle();
-            currentHotspot.element.style.display = 'none'; // מעלים את החפץ אחרי שפתרו אותו
-            solvedInRoom++;
             
-            // בודק אם פתרו את כל החפצים בחדר
-            if (solvedInRoom >= rooms[currentRoom].hotspots.length) {
-                alert("כל הכבוד! פתחתן את הדלת לחדר הבא! 🚪✨");
-                currentRoom++;
-                if (currentRoom < rooms.length) {
-                    loadRoom();
-                } else {
-                    document.getElementById('room-viewport').style.display = 'none';
-                    document.getElementById('win-screen').style.display = 'flex';
-                }
+            currentRoom++;
+            if (currentRoom < rooms.length) {
+                loadRoom();
+            } else {
+                document.getElementById('room-viewport').style.display = 'none';
+                document.getElementById('win-screen').style.display = 'flex';
             }
         } else {
             alert("תשובה שגויה, חפשו שוב בחפץ! 🤔");
