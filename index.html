@@ -1,3 +1,179 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אחוזת הטיקטוק - חדר בריחה מציאותי</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tiktok-pink: #fe0979;
+            --tiktok-cyan: #00f2fe;
+        }
+        body {
+            background-color: #0d0d0d;
+            font-family: 'Heebo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            overflow: hidden;
+        }
+        .phone-mockup {
+            width: 100%;
+            max-width: 420px;
+            height: 95vh;
+            max-height: 850px;
+            background: #000;
+            border-radius: 35px;
+            border: 8px solid #222;
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header {
+            padding: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 900;
+            background: rgba(0,0,0,0.85);
+            border-bottom: 2px solid var(--tiktok-pink);
+            z-index: 10;
+        }
+        
+        .room-viewport {
+            flex: 1;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .hotspot {
+            position: absolute;
+            border: 2px dashed var(--tiktok-cyan);
+            background: rgba(0, 242, 254, 0.25);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            animation: pulse 2s infinite;
+            transition: transform 0.2s;
+        }
+        .hotspot:active { transform: scale(0.9); }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px var(--tiktok-cyan); }
+            50% { box-shadow: 0 0 20px var(--tiktok-pink); border-color: var(--tiktok-pink); }
+            100% { box-shadow: 0 0 5px var(--tiktok-cyan); }
+        }
+
+        .puzzle-modal {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.93);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            z-index: 30;
+        }
+        .puzzle-box {
+            background: #18181c;
+            border: 2px solid var(--tiktok-pink);
+            border-radius: 20px;
+            padding: 20px;
+            width: 85%;
+            box-shadow: 0 0 25px rgba(254, 9, 121, 0.4);
+        }
+        .puzzle-title { font-size: 20px; font-weight: bold; color: var(--tiktok-cyan); margin-bottom: 10px; }
+        .puzzle-desc { font-size: 16px; line-height: 1.4; margin-bottom: 15px; }
+        
+        .video-container {
+            width: 100%;
+            height: 190px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--tiktok-cyan);
+            background: #000;
+        }
+
+        input {
+            width: 80%;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 2px solid var(--tiktok-cyan);
+            text-align: center;
+            outline: none;
+            margin-bottom: 12px;
+            font-family: 'Heebo', sans-serif;
+        }
+        .btn {
+            background: var(--tiktok-pink);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 4px;
+        }
+        .btn-close { background: #444; }
+
+        .win-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #fe0979, #00f2fe);
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="phone-mockup">
+    <div class="header" id="room-header">חדר 1: סטודיו הצילומים 📸</div>
+    
+    <div class="room-viewport" id="room-viewport"></div>
+
+    <div class="puzzle-modal" id="puzzle-modal">
+        <div class="puzzle-box">
+            <div class="puzzle-title" id="p-title">חפץ שנמצא!</div>
+            <div id="video-box" class="video-container" style="display:none;"></div>
+            <div class="puzzle-desc" id="p-desc">תיאור החידה</div>
+            
+            <div id="input-area">
+                <input type="text" id="ans-input" placeholder="הקלידו את התשובה...">
+                <br>
+                <button class="btn" onclick="checkAnswer()">פתיחת המנעול 🔓</button>
+            </div>
+            <br>
+            <button class="btn btn-close" onclick="closePuzzle()">חזרה לסריקת החדר 🔍</button>
+        </div>
+    </div>
+
+    <div class="win-screen" id="win-screen">
+        <h1 style="font-size: 40px;">🎉 סיימתן את המשחק! 🎉</h1>
+        <p style="font-size: 22px;">ליאור ומילי, פתרתן את כל החידות באחוזה!</p>
+        <div style="font-size: 70px;">👑📱✨</div>
+    </div>
+</div>
+
 <script>
     const rooms = [
         {
@@ -7,9 +183,7 @@
                 {
                     top: "35%", left: "15%", width: "70px", height: "70px", icon: "💻",
                     title: "מחשב העריכה של הסטודיו",
-                    // נגן וידאו מובנה יציב שעובד ב-100% בכל דפדפן
-                    videoType: "iframe",
-                    video: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1&mute=1&controls=0&loop=1",
+                    video: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1&mute=1&controls=1&loop=1",
                     desc: "הביטו בסרטון הסטודיו שנפתח! הרמז שמופיע במסך: <br><br><b>'אני יכול לרוץ אבל אין לי רגליים, ויש לי ערוץ אבל אין לי טלוויזיה'. מי אני?</b>",
                     answers: ["נהר", "נחל", "מים"]
                 },
@@ -101,3 +275,5 @@
 
     loadRoom();
 </script>
+</body>
+</html>
