@@ -46,7 +46,6 @@
             z-index: 10;
         }
         
-        /* תצוגת החדר הפיזי */
         .room-viewport {
             flex: 1;
             position: relative;
@@ -55,7 +54,6 @@
             overflow: hidden;
         }
 
-        /* נקודות חמות ללחיצה על חפצים בתוך החדר (Hotspots) */
         .hotspot {
             position: absolute;
             border: 2px dashed var(--tiktok-cyan);
@@ -77,7 +75,6 @@
             100% { box-shadow: 0 0 5px var(--tiktok-cyan); }
         }
 
-        /* חלון חידה קופץ (Modal) */
         .puzzle-modal {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -97,11 +94,12 @@
             padding: 20px;
             width: 85%;
             box-shadow: 0 0 25px rgba(254, 9, 121, 0.4);
+            max-height: 80vh;
+            overflow-y: auto;
         }
         .puzzle-title { font-size: 20px; font-weight: bold; color: var(--tiktok-cyan); margin-bottom: 10px; }
         .puzzle-desc { font-size: 16px; line-height: 1.4; margin-bottom: 15px; }
         
-        /* נגן וידאו אמיתי מובנה בתוך החידה */
         .video-container {
             width: 100%;
             height: 180px;
@@ -153,11 +151,8 @@
 <div class="phone-mockup">
     <div class="header" id="room-header">חדר 1: סטודיו הצילומים 📸</div>
     
-    <div class="room-viewport" id="room-viewport">
-        <!-- החפצים בתוך החדר ייווצרו פה באופן דינמי -->
-    </div>
+    <div class="room-viewport" id="room-viewport"></div>
 
-    <!-- חלון החידה -->
     <div class="puzzle-modal" id="puzzle-modal">
         <div class="puzzle-box">
             <div class="puzzle-title" id="p-title">חפץ שנמצא!</div>
@@ -174,7 +169,6 @@
         </div>
     </div>
 
-    <!-- מסך ניצחון -->
     <div class="win-screen" id="win-screen">
         <h1 style="font-size: 40px;">🎉 סיימתן את המשחק! 🎉</h1>
         <p style="font-size: 22px;">ליאור ומילי, פתרתן את כל החידות באחוזה!</p>
@@ -183,7 +177,6 @@
 </div>
 
 <script>
-    // הגדרת החדרים, החפצים והמיקומים שלהם בתוך החדר
     const rooms = [
         {
             name: "חדר 1: סטודיו הצילומים 📸",
@@ -191,10 +184,10 @@
             hotspots: [
                 {
                     top: "35%", left: "15%", width: "70px", height: "70px", icon: "💻",
-                    title: "מחשב העריכה של הסטודיו",
-                    video: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1",
-                    desc: "צפו בסרטון! הטיקטוקרית משאירה חידה: <br><br><b>'אני יכול לרוץ אבל אין לי רגליים, ויש לי ערוץ אבל אין לי טלוויזיה'. מי אני?</b>",
-                    answers: ["נהר", "נחל", "מים"]
+                    title: "מחשב העריכה - חידת שיר",
+                    video: "https://www.youtube.com/embed/LtY23Aq1mTI?autoplay=1",
+                    desc: "לחצו על הפליי וצפו! הלהיט הזה חרך את הטיקטוק... <br><br><b>מה מבקשת הזמרת אנה זק מאותו בחור לעשות?</b>",
+                    answers: ["לישון", "לך לישון"]
                 },
                 {
                     top: "60%", left: "65%", width: "80px", height: "80px", icon: "💡",
@@ -211,8 +204,9 @@
                 {
                     top: "45%", left: "40%", width: "90px", height: "90px", icon: "👟",
                     title: "קופסת נעלי הניאון",
-                    desc: "בתוך הנעל מוחבאת פתקית: <br><br><b>'ככל שתיקח ממני יותר, ככה אהיה גדולה יותר'. מה אני?</b>",
-                    answers: ["גומה", "חור", "הגומה"]
+                    video: "https://www.youtube.com/embed/FsNW5wYnSYU",
+                    desc: "הקשיבו לסרטון המסתורי. <br><br><b>באיזה מופע ילדים מדובר בשיר שמתנגן ברקע?</b>",
+                    answers: ["פסטיגל"]
                 }
             ]
         }
@@ -228,7 +222,6 @@
         viewport.style.backgroundImage = `url('${room.bg}')`;
         viewport.innerHTML = "";
 
-        // יצירת החפצים בתוך החדר לפי המיקומים שלהם
         room.hotspots.forEach(hs => {
             const el = document.createElement('div');
             el.className = 'hotspot';
@@ -251,7 +244,7 @@
         const videoBox = document.getElementById('video-box');
         if (hs.video) {
             videoBox.style.display = 'block';
-            videoBox.innerHTML = `<iframe src="${hs.video}" allow="autoplay"></iframe>`;
+            videoBox.innerHTML = `<iframe src="${hs.video}" allow="autoplay; encrypted-media"></iframe>`;
         } else {
             videoBox.style.display = 'none';
             videoBox.innerHTML = "";
@@ -271,7 +264,6 @@
             alert("פצחתן את החידה בחפץ הזה! 🏆");
             closePuzzle();
             
-            // מעבר לחדר הבא
             currentRoom++;
             if (currentRoom < rooms.length) {
                 loadRoom();
